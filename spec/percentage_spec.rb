@@ -26,6 +26,76 @@ describe 'Percentage object' do
   end
 end
 
+describe 'Percentage object initialized with an integer value' do
+  before do
+    @percentage = Percentage.new(10)
+  end
+
+  describe 'value method' do
+    it 'returns the value passed to the constructor' do
+      @percentage.value.must_equal(10)
+    end
+  end
+
+  describe 'to_i method' do
+    it 'returns the integer value of the percentage' do
+      @percentage.to_i.must_equal(10)
+    end
+  end
+
+  describe 'to_f method' do
+    it 'returns the float value of the percentage' do
+      @percentage.to_f.must_be_close_to(10.0)
+    end
+  end
+
+  describe 'to_s method' do
+    it 'returns the integer value of the percentage suffixed with the percent symbol' do
+      @percentage.to_s.must_equal('10%')
+    end
+  end
+
+  describe 'to_r method' do
+    it 'returns the rational value of the percentage' do
+      @percentage.to_r.must_equal(Rational(1, 10))
+    end
+  end
+
+  describe 'zero query method' do
+    it 'returns true if the percentage has a zero value' do
+      Percentage.new(0).zero?.must_equal(true)
+    end
+
+    it 'returns false otherwise' do
+      @percentage.zero?.must_equal(false)
+    end
+  end
+
+  describe 'multiplication with a percentage argument' do
+    it 'returns a percentage object with the value of the two percentages multiplied together' do
+      percentage = @percentage * @percentage
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(Rational(1, 100))
+    end
+  end
+
+  describe 'multiplication with an integer argument' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer' do
+      percentage = @percentage * 2
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(20)
+    end
+  end
+
+  describe 'truncate method' do
+    it 'returns a percentage object with a truncated rational value' do
+      percentage = @percentage.truncate(1)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(Rational(1, 10))
+    end
+  end
+end
+
 describe 'Percentage object initialized with a rational value' do
   before do
     @percentage = Percentage.new(Rational(1, 8))
@@ -176,10 +246,10 @@ end
 
 describe 'Percentage method' do
   describe 'when called with an integer argument' do
-    it 'returns a percentage object with the value of the argument divided by 100' do
+    it 'returns a percentage object with the integer value' do
       percentage = Percentage(10)
       percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(10, 100))
+      percentage.value.must_equal(10)
     end
   end
 

@@ -6,24 +6,24 @@ class Percentage
 
   include Comparable
 
-  def initialize(fraction)
-    @value = fraction
+  def initialize(value)
+    @value = value
   end
 
   def to_i
-    (@value * 100).to_i
+    (fractional_value * 100).to_i
   end
 
   def to_f
-    (@value * 100).to_f
+    (fractional_value * 100).to_f
   end
 
   def to_s
-    "#{decimal_value}%"
+    "#{string_value}%"
   end
 
   def to_r
-    @value.to_r
+    fractional_value.to_r
   end
 
   def zero?
@@ -55,7 +55,7 @@ class Percentage
     when Integer
       self.class.new(@value * object)
     when self.class
-      self.class.new(@value * object.value)
+      self.class.new(fractional_value * object.fractional_value)
     else
       raise ArgumentError, "#{object.class} cannot be used to multiply a percentage"
     end
@@ -64,20 +64,28 @@ class Percentage
   def coerce(other)
     case other
     when Numeric
-      return @value, other
+      return fractional_value, other
     else
       raise TypeError, "#{self.class} can't be coerced into #{other.class}"
     end
   end
 
   def truncate(n)
-    self.class.new(@value.truncate(n))
+    self.class.new(fractional_value.truncate(n))
+  end
+
+  protected
+
+  def fractional_value
+    Integer === @value ? Rational(@value, 100) : @value
   end
 
   private
 
-  def decimal_value
-    if BigDecimal === @value
+  def string_value
+    if Integer === @value
+      @value.to_s
+    elsif BigDecimal === @value
       (@value * 100).to_s('F')
     else
       BigDecimal(@value * 100, _precision=10).to_s('F')
@@ -86,11 +94,7 @@ class Percentage
 end
 
 def Percentage(object)
-  if Integer === object
-    Percentage.new(Rational(object, 100))
-  else
-    Percentage.new(object / 100)
-  end
+  Percentage.new(Integer === object ? object : object / 100)
 end
 
 class BigDecimal
@@ -105,6 +109,6 @@ class Integer
   end
 
   def percent_of(n)
-    n * Percentage(self)
+    n * Percentage.new(self)
   end
 end

@@ -5,6 +5,12 @@ Percentage
 A little library for working with percentages.
 
 
+Installation
+------------
+
+    $ gem install percentage
+
+
 Feature Tour
 ------------
 

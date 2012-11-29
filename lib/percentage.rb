@@ -118,11 +118,15 @@ class BigDecimal
 end
 
 class Integer
-  def as_percentage_of(n)
-    Percentage.new(Rational(self, n))
+  def percent
+    Percentage.new(self)
   end
 
   def percent_of(n)
     n * Percentage.new(self)
+  end
+
+  def as_percentage_of(n)
+    Percentage.new(Rational(self, n))
   end
 end

@@ -87,13 +87,13 @@ class Percentage
   protected
 
   def fractional_value
-    @fractional_value ||= Integer === @value ? Rational(@value, 100) : @value
+    @fractional_value ||= @value.integer? ? Rational(@value, 100) : @value
   end
 
   private
 
   def string_value
-    if Integer === @value
+    if @value.integer?
       @value.to_s
     elsif BigDecimal === @value
       (@value * 100).to_s('F')
@@ -104,7 +104,7 @@ class Percentage
 end
 
 def Percentage(object)
-  Percentage.new(Integer === object ? object : object / 100)
+  Percentage.new(object.integer? ? object : object / 100)
 end
 
 def Percentage.change(a, b)

@@ -32,18 +32,14 @@ class Percentage
 
   def <=>(object)
     if self.class === object
-      @value <=> object.value
+      fractional_value <=> object.fractional_value
     elsif Numeric === object
-      @value <=> object
+      fractional_value <=> object
     end
   end
 
   def eql?(object)
     object.instance_of?(self.class) && @value.eql?(object.value)
-  end
-
-  def ==(object)
-    object.instance_of?(self.class) && fractional_value == object.fractional_value
   end
 
   def hash

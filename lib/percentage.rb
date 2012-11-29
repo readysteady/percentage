@@ -52,12 +52,10 @@ class Percentage
 
   def *(object)
     case object
-    when Integer
-      self.class.new(@value * object)
     when self.class
-      self.class.new(fractional_value * object.fractional_value)
+      self.class.new(fractional_value.to_r * object.fractional_value)
     else
-      raise ArgumentError, "#{object.class} cannot be used to multiply a percentage"
+      fractional_value.coerce(object).inject(&:*)
     end
   end
 
@@ -72,6 +70,10 @@ class Percentage
 
   def truncate(n)
     self.class.new(fractional_value.truncate(n))
+  end
+
+  def scale(n)
+    self.class.new(@value * n)
   end
 
   protected

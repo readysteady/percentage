@@ -71,27 +71,19 @@ describe 'Percentage object initialized with an integer value' do
     end
   end
 
-  describe 'multiplication with a percentage argument' do
-    it 'returns a percentage object with the value of the two percentages multiplied together' do
-      percentage = @percentage * @percentage
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 100))
-    end
-  end
-
-  describe 'multiplication with an integer argument' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer' do
-      percentage = @percentage * 2
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(20)
-    end
-  end
-
   describe 'truncate method' do
     it 'returns a percentage object with a truncated rational value' do
       percentage = @percentage.truncate(1)
       percentage.must_be_instance_of(Percentage)
       percentage.value.must_equal(Rational(1, 10))
+    end
+  end
+
+  describe 'scale method' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      percentage = @percentage.scale(2)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(20)
     end
   end
 end
@@ -141,27 +133,19 @@ describe 'Percentage object initialized with a rational value' do
     end
   end
 
-  describe 'multiplication with a percentage argument' do
-    it 'returns a percentage object with the value of the two percentages multiplied together' do
-      percentage = @percentage * @percentage
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 64))
-    end
-  end
-
-  describe 'multiplication with an integer argument' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer' do
-      percentage = @percentage * 2
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(25, 100))
-    end
-  end
-
   describe 'truncate method' do
     it 'returns a percentage object with a truncated rational value' do
       percentage = @percentage.truncate(1)
       percentage.must_be_instance_of(Percentage)
       percentage.value.must_equal(Rational(1, 10))
+    end
+  end
+
+  describe 'scale method' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      percentage = @percentage.scale(2)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(Rational(1, 4))
     end
   end
 end
@@ -211,28 +195,45 @@ describe 'Percentage object initialized with a decimal value' do
     end
   end
 
-  describe 'multiplication with a percentage argument' do
-    it 'returns a percentage object with the value of the two percentages multiplied together' do
-      percentage = @percentage * @percentage
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.030625'))
-    end
-  end
-
-  describe 'multiplication with an integer argument' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer' do
-      percentage = @percentage * 2
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.35'))
-    end
-  end
-
   describe 'truncate method' do
     it 'returns a percentage object with a truncated decimal value' do
       percentage = @percentage.truncate(1)
       percentage.must_be_instance_of(Percentage)
       percentage.value.must_equal(BigDecimal('0.1'))
     end
+  end
+
+  describe 'scale method' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      percentage = @percentage.scale(2)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(BigDecimal('0.35'))
+    end
+  end
+end
+
+describe 'Multiplication of percentage objects' do
+  it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
+    percentage = Percentage.new(10) * Percentage.new(10)
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(Rational(1, 100))
+
+    percentage = Percentage.new(Rational(1, 8)) * Percentage.new(10)
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(Rational(1, 80))
+
+    percentage = Percentage.new(BigDecimal('0.175')) * Percentage.new(10)
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(Rational(7, 400))
+  end
+end
+
+describe 'Multiplication of a decimal object with a percentage object' do
+  it 'returns a decimal object with the value of the decimal multiplied by the fractional value of the percentage' do
+    percentage, decimal = Percentage.new(BigDecimal('0.175')), BigDecimal('99.00')
+
+    (decimal * percentage).must_equal(BigDecimal('17.325'))
+    (percentage * decimal).must_equal(BigDecimal('17.325'))
   end
 end
 
@@ -259,14 +260,6 @@ describe 'Percentage object equality' do
       (Percentage.new(50).eql? Percentage.new(BigDecimal('0.5'))).must_equal(false)
       (Percentage.new(50).eql? Percentage.new(100)).must_equal(false)
     end
-  end
-end
-
-describe 'Multiplication of a decimal object by a percentage object' do
-  it 'returns a decimal object with the value of the decimal multiplied by the fractional value of the percentage' do
-    percentage = Percentage.new(BigDecimal('0.175'))
-
-    (BigDecimal('99.00') * percentage).must_equal(BigDecimal('17.325'))
   end
 end
 

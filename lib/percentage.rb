@@ -75,7 +75,7 @@ class Percentage
   protected
 
   def fractional_value
-    Integer === @value ? Rational(@value, 100) : @value
+    @fractional_value ||= Integer === @value ? Rational(@value, 100) : @value
   end
 
   private

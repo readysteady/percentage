@@ -46,6 +46,18 @@ class Percentage
     @value.hash
   end
 
+  def +(object)
+    if self.class === object
+      if @value.integer? ^ object.value.integer?
+        self.class.new(fractional_value + object.fractional_value)
+      else
+        self.class.new(@value + object.value)
+      end
+    else
+      raise TypeError, "cannot add #{object.class} to #{self.class}"
+    end
+  end
+
   def *(object)
     case object
     when self.class

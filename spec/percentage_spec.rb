@@ -212,6 +212,28 @@ describe 'Percentage object initialized with a decimal value' do
   end
 end
 
+describe 'Addition of percentage objects' do
+  it 'returns a percentage object with the value of the two percentages added together' do
+    percentage = Percentage.new(10) + Percentage.new(10)
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(20)
+
+    percentage = Percentage.new(Rational(1, 8)) + Percentage.new(10)
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(Rational(9, 40))
+
+    percentage = Percentage.new(BigDecimal('0.175')) + Percentage.new(BigDecimal('0.025'))
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(BigDecimal('0.2'))
+  end
+end
+
+describe 'Addition of percentage object with another type of object' do
+  it 'raises an exception' do
+    proc { Percentage.new(10) + 5 }.must_raise(TypeError)
+  end
+end
+
 describe 'Multiplication of percentage objects' do
   it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
     percentage = Percentage.new(10) * Percentage.new(10)

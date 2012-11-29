@@ -3,7 +3,7 @@ require 'minitest/autorun'
 require_relative '../lib/percentage'
 
 describe 'Percentage object' do
-  it 'includes comparable' do
+  it 'is comparable' do
     percentage = Percentage.new(Rational(1, 8))
 
     (Comparable === percentage).must_equal(true)
@@ -232,6 +232,32 @@ describe 'Percentage object initialized with a decimal value' do
       percentage = @percentage.truncate(1)
       percentage.must_be_instance_of(Percentage)
       percentage.value.must_equal(BigDecimal('0.1'))
+    end
+  end
+end
+
+describe 'Percentage object equality' do
+  describe 'double equals method' do
+    it 'returns true for percentage objects with the same fractional value' do
+      (Percentage.new(50) == Percentage.new(50)).must_equal(true)
+      (Percentage.new(50) == Percentage.new(Rational(1, 2))).must_equal(true)
+      (Percentage.new(50) == Percentage.new(BigDecimal('0.5'))).must_equal(true)
+    end
+
+    it 'returns false otherwise' do
+      (Percentage.new(50) == Percentage.new(100)).must_equal(false)
+    end
+  end
+
+  describe 'eql query method' do
+    it 'returns true for percentage objects with exactly the same fractional value' do
+      (Percentage.new(50).eql? Percentage.new(50)).must_equal(true)
+    end
+
+    it 'returns false otherwise' do
+      (Percentage.new(50).eql? Percentage.new(Rational(1, 2))).must_equal(false)
+      (Percentage.new(50).eql? Percentage.new(BigDecimal('0.5'))).must_equal(false)
+      (Percentage.new(50).eql? Percentage.new(100)).must_equal(false)
     end
   end
 end

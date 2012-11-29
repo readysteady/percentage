@@ -43,7 +43,7 @@ class Percentage
   end
 
   def ==(object)
-    object.instance_of?(self.class) && @value == object.value
+    object.instance_of?(self.class) && fractional_value == object.fractional_value
   end
 
   def hash

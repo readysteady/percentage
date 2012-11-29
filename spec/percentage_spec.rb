@@ -296,6 +296,14 @@ describe 'Percentage method' do
   end
 end
 
+describe 'Percentage change method' do
+  it 'returns the difference between the arguments as a percentage of the first argument' do
+    percentage = Percentage.change(2, 3)
+    percentage.must_be_instance_of(Percentage)
+    percentage.must_equal(Percentage.new(50))
+  end
+end
+
 describe 'BigDecimal as_percentage_of method' do
   it 'returns a percentage object with the value of the decimal divided by the argument' do
     percentage = BigDecimal('50.00').as_percentage_of(BigDecimal('100.00'))

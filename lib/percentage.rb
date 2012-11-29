@@ -97,6 +97,10 @@ def Percentage(object)
   Percentage.new(Integer === object ? object : object / 100)
 end
 
+def Percentage.change(a, b)
+  Percentage.new((b - a).to_r / a)
+end
+
 class BigDecimal
   def as_percentage_of(n)
     Percentage.new(self / n)

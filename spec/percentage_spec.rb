@@ -187,7 +187,7 @@ describe 'Percentage object initialized with a decimal value' do
 
   describe 'zero query method' do
     it 'returns true if the percentage has a zero value' do
-      Percentage.new(BigDecimal(0)).zero?.must_equal(true)
+      Percentage.new(BigDecimal('0')).zero?.must_equal(true)
     end
 
     it 'returns false otherwise' do
@@ -338,7 +338,7 @@ end
 describe 'Integer percent_of method' do
   it 'returns the value of the receiver as a percentage multiplied by the argument' do
     10.percent_of(100).must_equal(10)
-    10.percent_of(BigDecimal(15)).must_equal(BigDecimal('1.5'))
+    10.percent_of(BigDecimal('15')).must_equal(BigDecimal('1.5'))
     10.percent_of(Rational(150, 2)).must_equal(Rational(15, 2))
   end
 end

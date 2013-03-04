@@ -98,7 +98,7 @@ class Percentage
     elsif BigDecimal === @value
       (@value * 100).to_s('F')
     else
-      BigDecimal(@value * 100, _precision=10).to_s('F')
+      (@value * 100).to_f.to_s
     end
   end
 end

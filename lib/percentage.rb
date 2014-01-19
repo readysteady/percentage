@@ -1,4 +1,3 @@
-require 'rational'
 require 'bigdecimal'
 
 class Percentage

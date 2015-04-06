@@ -1,8 +1,8 @@
-Percentage
+percentage
 ==========
 
 
-A little library for working with percentages.
+A little Ruby library for working with percentages.
 
 
 Installation
@@ -11,7 +11,7 @@ Installation
     $ gem install percentage
 
 
-Feature Tour
+Feature tour
 ------------
 
 The `Percentage` method converts Integer/BigDecimal/Rational objects
@@ -52,9 +52,9 @@ They can also be "scaled up" using the `scale` method:
 Percentage(10).scale(5)  # => 50%
 ```
 
-Multiplication is then defined using the fractional value of the percentage.
-BigDecimal objects can't be coerced into rational objects, so the order of
-the multiplication will matter in some cases. For example:
+Multiplication is defined using the fractional value of the percentage.
+BigDecimal objects can't be coerced into rational objects, so the
+multiplication order will matter in some cases, for example:
 
 ```ruby
 Percentage(50) * 10  # => (5/1)
@@ -67,10 +67,10 @@ Percentage(50) * BigDecimal('150.00')  # raises TypeError
 ```
 
 
-Bonus Extras
+Bonus extras
 ------------
 
-Some shortcut methods are defined on Integer/BigDecimal for convenience:
+Some shortcut methods are defined on Integer and BigDecimal for convenience:
 
 ```ruby
 50.percent  # => 50%
@@ -82,8 +82,7 @@ Some shortcut methods are defined on Integer/BigDecimal for convenience:
 5.as_percentage_of(10)  # => 50.0%
 ```
 
-And there's also a class method for calculating the percentage
-change between two values:
+There's also a class method for calculating the percentage change between two values:
 
 ```ruby
 Percentage.change(2, 3)  # => 50.0%

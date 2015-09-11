@@ -17,6 +17,10 @@ class Percentage
     (fractional_value * 100).to_f
   end
 
+  def to_d
+    BigDecimal(string_value)
+  end
+
   def to_s
     "#{string_value}%"
   end

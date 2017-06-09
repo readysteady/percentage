@@ -1,18 +1,15 @@
-percentage
-==========
+# percentage
 
 
 A little Ruby library for working with percentages.
 
 
-Installation
-------------
+## Installation
 
     $ gem install percentage
 
 
-Feature tour
-------------
+## Feature tour
 
 The `Percentage` method converts Integer/BigDecimal/Rational objects
 to percentage objects with values that you would expect:
@@ -67,8 +64,7 @@ Percentage(50) * BigDecimal('150.00')  # raises TypeError
 ```
 
 
-Bonus extras
-------------
+## Bonus extras
 
 Some shortcut methods are defined on Integer and BigDecimal for convenience:
 

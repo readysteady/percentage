@@ -49,6 +49,12 @@ describe 'Percentage object initialized with an integer value' do
     end
   end
 
+  describe 'to_d method' do
+    it 'returns the BigDecimal value of the percentage' do
+      @percentage.to_d.must_equal(BigDecimal("10.0"))
+    end
+  end
+
   describe 'to_s method' do
     it 'returns the integer value of the percentage suffixed with the percent symbol' do
       @percentage.to_s.must_equal('10%')

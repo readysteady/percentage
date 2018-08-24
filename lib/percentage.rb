@@ -125,7 +125,7 @@ class BigDecimal
 end
 
 class Integer
-  def percent
+  def to_percentage
     Percentage.new(self)
   end
 

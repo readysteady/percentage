@@ -343,9 +343,9 @@ describe 'BigDecimal as_percentage_of method' do
   end
 end
 
-describe 'Integer percent method' do
+describe 'Integer to_percentage method' do
   it 'returns a percentage object with the value of the integer' do
-    percentage = 10.percent
+    percentage = 10.to_percentage
     percentage.must_be_instance_of(Percentage)
     percentage.value.must_equal(10)
   end

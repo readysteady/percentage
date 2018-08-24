@@ -126,11 +126,11 @@ end
 
 class Integer
   def to_percentage
-    Percentage.new(self)
+    Percentage(self)
   end
 
   def percent_of(n)
-    n * Percentage.new(self)
+    n * Percentage(self)
   end
 
   def as_percentage_of(n)

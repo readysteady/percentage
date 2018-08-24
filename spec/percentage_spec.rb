@@ -335,7 +335,6 @@ describe 'BigDecimal percent_of method' do
   end
 end
 
-
 describe 'BigDecimal as_percentage_of method' do
   it 'returns a percentage object with the value of the decimal divided by the argument' do
     percentage = BigDecimal('50.00').as_percentage_of(BigDecimal('100.00'))

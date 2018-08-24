@@ -11,10 +11,10 @@ A little Ruby library for working with percentages.
     $ gem install percentage
 
 
-## Feature tour
+## Constructing Percentages
 
-The `Percentage` method converts Integer/BigDecimal/Rational objects
-to percentage objects with values that you would expect:
+The `Percentage` method converts numeric objects to percentage objects
+with values that you would expect:
 
 ```ruby
 Percentage(50)  # => 50%
@@ -25,7 +25,7 @@ Percentage(Rational(25, 2))  # => 12.5%
 ```
 
 Percentage objects can also be constructed directly, but in this case
-BigDecimal/Rational values are treated as fractions, for example:
+BigDecimal/Rational values are treated as fractions:
 
 ```ruby
 Percentage.new(50)  # => 50%
@@ -34,6 +34,19 @@ Percentage.new(BigDecimal('0.175'))  # => 17.5%
 
 Percentage.new(Rational(1, 8))  # => 12.5%
 ```
+
+Some shortcut methods are defined on Integer and BigDecimal for convenience:
+
+```ruby
+50.percent  # => 50%
+
+5.as_percentage_of(10)  # => 50.0%
+
+BigDecimal('2.9').to_percentage  # => 2.9%
+```
+
+
+## Numeric features
 
 As with other numerics, percentage objects are conceptually immutable.
 Common numeric functionality like `to_i`, `to_f`, `to_s`, `to_r`, `zero?`,
@@ -68,19 +81,17 @@ Percentage(50) * BigDecimal('150.00')  # raises TypeError
 
 ## Bonus extras
 
-Some shortcut methods are defined on Integer and BigDecimal for convenience:
+There's a #percent_of method defined on Integer and BigDecimal for percentage calculations:
 
 ```ruby
-50.percent  # => 50%
-
 50.percent_of(BigDecimal(150))  # => BigDecimal('75.00')
 
 10.percent_of(100)  # => (10/1)
 
-5.as_percentage_of(10)  # => 50.0%
+BigDecimal('0.5').percent_of(88)  # => BigDecimal('0.44')
 ```
 
-There's also a class method for calculating the percentage change between two values:
+There's also a `Percentage.change` method for calculating the percentage change between two values:
 
 ```ruby
 Percentage.change(2, 3)  # => 50.0%

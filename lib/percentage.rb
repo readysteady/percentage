@@ -129,6 +129,8 @@ class Integer
     Percentage(self)
   end
 
+  alias_method :percent, :to_percentage
+
   def percent_of(n)
     n * Percentage(self)
   end

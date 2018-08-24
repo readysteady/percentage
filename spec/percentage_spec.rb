@@ -351,6 +351,14 @@ describe 'Integer to_percentage method' do
   end
 end
 
+describe 'Integer percent method' do
+  it 'returns a percentage object with the value of the integer' do
+    percentage = 10.percent
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(10)
+  end
+end
+
 describe 'Integer percent_of method' do
   it 'returns the value of the receiver as a percentage multiplied by the argument' do
     10.percent_of(100).must_equal(10)

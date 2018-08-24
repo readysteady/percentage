@@ -111,6 +111,14 @@ def Percentage.change(a, b)
 end
 
 class BigDecimal
+  def percent
+    Percentage(self)
+  end
+
+  def percent_of(n)
+    n * Percentage(self)
+  end
+
   def as_percentage_of(n)
     Percentage.new(self / n)
   end

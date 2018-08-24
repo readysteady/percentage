@@ -319,6 +319,23 @@ describe 'Percentage change method' do
   end
 end
 
+describe 'BigDecimal percent method' do
+  it 'returns a percentage object with the value of the decimal' do
+    percentage = BigDecimal(90).percent
+    percentage.must_be_instance_of(Percentage)
+    percentage.value.must_equal(BigDecimal('0.9'))
+  end
+end
+
+describe 'BigDecimal percent_of method' do
+  it 'returns the value of the receiver as a percentage multiplied by the argument' do
+    BigDecimal(90).percent_of(100).must_equal(90)
+    BigDecimal(90).percent_of(BigDecimal('15')).must_equal(BigDecimal('13.5'))
+    BigDecimal(90).percent_of(Rational(150, 2)).must_equal(Rational(135, 2))
+  end
+end
+
+
 describe 'BigDecimal as_percentage_of method' do
   it 'returns a percentage object with the value of the decimal divided by the argument' do
     percentage = BigDecimal('50.00').as_percentage_of(BigDecimal('100.00'))

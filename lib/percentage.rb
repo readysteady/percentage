@@ -111,7 +111,7 @@ def Percentage.change(a, b)
 end
 
 class BigDecimal
-  def percent
+  def to_percentage
     Percentage(self)
   end
 

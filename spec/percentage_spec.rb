@@ -319,9 +319,9 @@ describe 'Percentage change method' do
   end
 end
 
-describe 'BigDecimal percent method' do
-  it 'returns a percentage object with the value of the decimal' do
-    percentage = BigDecimal(90).percent
+describe 'BigDecimal to_percentage method' do
+  it 'returns a percentage object with the value of the decimal as a percentage' do
+    percentage = BigDecimal(90).to_percentage
     percentage.must_be_instance_of(Percentage)
     percentage.value.must_equal(BigDecimal('0.9'))
   end

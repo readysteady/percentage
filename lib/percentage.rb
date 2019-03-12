@@ -7,6 +7,7 @@ class Percentage
 
   def initialize(value)
     @value = value
+    @fractional_value = determine_fractional_value
   end
 
   def to_i
@@ -85,8 +86,10 @@ class Percentage
 
   protected
 
-  def fractional_value
-    @fractional_value ||= @value.integer? ? Rational(@value, 100) : @value
+  attr_reader :fractional_value
+
+  def determine_fractional_value
+    @value.integer? ? Rational(@value, 100) : @value
   end
 
   private

@@ -24,6 +24,12 @@ describe 'Percentage object' do
 
     hash[Percentage.new(Rational(1, 10))].must_equal(3)
   end
+
+  it 'can be frozen' do
+    percentage = Percentage.new(10).freeze
+    percentage.frozen?.must_equal(true)
+    percentage.to_i.must_equal(10)
+  end
 end
 
 describe 'Percentage object initialized with an integer value' do

@@ -1,3 +1,4 @@
 source 'https://rubygems.org'
 
-gemspec
+gem 'rake', '~> 12'
+gem 'minitest', '~> 5'

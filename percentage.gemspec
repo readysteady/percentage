@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/timcraft/percentage'
   s.description = 'A little library for working with percentages'
   s.summary = 'See description'
-  s.files = Dir.glob('{lib,spec}/**/*') + %w(LICENSE.txt README.md Rakefile.rb percentage.gemspec)
+  s.files = Dir.glob('lib/**/*.rb') + %w(LICENSE.txt README.md percentage.gemspec)
   s.required_ruby_version = '>= 1.9.3'
   s.require_path = 'lib'
 end

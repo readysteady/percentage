@@ -1,6 +1,7 @@
 # percentage
 
-[![Gem Version](https://badge.fury.io/rb/percentage.svg)](https://badge.fury.io/rb/percentage) [![Build Status](https://api.travis-ci.org/timcraft/percentage.svg?branch=master)](https://travis-ci.org/timcraft/percentage)
+![Gem Version](https://badge.fury.io/rb/percentage.svg)
+![Build Status](https://github.com/timcraft/percentage/workflows/Test/badge.svg)
 
 
 A little Ruby library for working with percentages.

@@ -1,3 +1,7 @@
+# 1.3.0
+
+* Added ndigits argument to Percentage#truncate
+
 # 1.2.0
 
 * Removed memoization so that Percentage objects can be frozen (thanks @iamvery)

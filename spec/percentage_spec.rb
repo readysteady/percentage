@@ -78,11 +78,17 @@ describe 'Percentage object initialized with an integer value' do
     end
   end
 
-  describe 'truncate method' do
-    it 'returns a percentage object with a truncated rational value' do
-      percentage = @percentage.truncate(1)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 10))
+  describe 'truncate method with zero arguments' do
+    it 'returns self' do
+      percentage = @percentage.truncate
+      percentage.object_id.must_equal(@percentage.object_id)
+    end
+  end
+
+  describe 'truncate method with an integer argument' do
+    it 'returns self' do
+      percentage = @percentage.truncate
+      percentage.object_id.must_equal(@percentage.object_id)
     end
   end
 
@@ -140,11 +146,19 @@ describe 'Percentage object initialized with a rational value' do
     end
   end
 
-  describe 'truncate method' do
-    it 'returns a percentage object with a truncated rational value' do
-      percentage = @percentage.truncate(1)
+  describe 'truncate method with zero arguments' do
+    it 'returns a percentage object with an integer value' do
+      percentage = @percentage.truncate
       percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 10))
+      percentage.value.must_equal(12)
+    end
+  end
+
+  describe 'truncate method with an integer argument' do
+    it 'returns a percentage object with a truncated rational value' do
+      percentage = Percentage.new(Rational(3141592, 100000000)).truncate(2)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(Rational(314, 10000))
     end
   end
 
@@ -202,11 +216,19 @@ describe 'Percentage object initialized with a decimal value' do
     end
   end
 
-  describe 'truncate method' do
-    it 'returns a percentage object with a truncated decimal value' do
-      percentage = @percentage.truncate(1)
+  describe 'truncate method with zero arguments' do
+    it 'returns a percentage object with an integer value' do
+      percentage = @percentage.truncate
       percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.1'))
+      percentage.value.must_equal(17)
+    end
+  end
+
+  describe 'truncate method with an integer argument' do
+    it 'returns a percentage object with a truncated decimal value' do
+      percentage = Percentage.new(BigDecimal('0.03141592')).truncate(2)
+      percentage.must_be_instance_of(Percentage)
+      percentage.value.must_equal(BigDecimal('0.0314'))
     end
   end
 

@@ -75,8 +75,16 @@ class Percentage
     end
   end
 
-  def truncate(n)
-    self.class.new(fractional_value.truncate(n))
+  def truncate(ndigits = nil)
+    return self if @value.integer?
+
+    value = @value * 100
+
+    if ndigits.nil?
+      self.class.new(value.truncate)
+    else
+      self.class.new(value.truncate(ndigits) / 100)
+    end
   end
 
   def scale(n)

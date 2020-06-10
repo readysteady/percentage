@@ -11,4 +11,10 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('lib/**/*.rb') + %w(LICENSE.txt README.md percentage.gemspec)
   s.required_ruby_version = '>= 1.9.3'
   s.require_path = 'lib'
+  s.metadata = {
+    'homepage' => 'https://github.com/readysteady/percentage',
+    'source_code_uri' => 'https://github.com/readysteady/percentage',
+    'bug_tracker_uri' => 'https://github.com/readysteady/percentage/issues',
+    'changelog_uri' => 'https://github.com/readysteady/percentage/blob/master/CHANGES.md'
+  }
 end

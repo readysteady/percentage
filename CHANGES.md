@@ -1,3 +1,15 @@
+# 1.4.0
+
+* Added optional YAML integration
+
+This makes it possible to dump/load percentage objects to/from YAML as scalar values. For example:
+
+    require 'percentage/yaml'
+
+    puts YAML.dump([Percentage(BigDecimal('17.5'))])
+
+This functionality is not enabled by default, due to the use of Module#prepend.
+
 # 1.3.0
 
 * Added ndigits argument to Percentage#truncate

@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/global_expectations'
 
 require_relative '../lib/percentage'
+require_relative '../lib/percentage/yaml'
 
 describe 'Percentage object' do
   it 'is comparable' do
@@ -401,5 +402,22 @@ describe 'Integer as_percentage_of method' do
     percentage = 10.as_percentage_of(20)
     percentage.must_be_instance_of(Percentage)
     percentage.value.must_equal(Rational(1, 2))
+  end
+end
+
+describe 'YAML' do
+  let(:integer_percentage) { Percentage.new(10) }
+  let(:decimal_percentage) { Percentage.new(BigDecimal('0.175')) }
+  let(:rational_percentage) { Percentage.new(Rational(1, 8)) }
+
+  it 'dumps percentage objects' do
+    YAML.dump([integer_percentage]).must_equal("---\n- 10%\n")
+    YAML.dump([decimal_percentage]).must_equal("---\n- 17.5%\n")
+    YAML.dump([rational_percentage]).must_equal("---\n- 12.5%\n")
+  end
+
+  it 'loads percentage objects' do
+    YAML.load("---\n- 10%\n").must_equal([integer_percentage])
+    YAML.load("---\n- 17.5%\n").must_equal([decimal_percentage])
   end
 end

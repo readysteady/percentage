@@ -4,7 +4,7 @@
 ![Build Status](https://github.com/readysteady/percentage/workflows/Test/badge.svg)
 
 
-A little Ruby library for working with percentages.
+Ruby gem for working with percentages.
 
 
 ## Installation

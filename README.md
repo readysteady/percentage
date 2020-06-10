@@ -7,7 +7,13 @@
 Ruby gem for working with percentages.
 
 
-## Installation
+## Install
+
+Using Bundler:
+
+    $ bundle add percentage
+
+Using RubyGems:
 
     $ gem install percentage
 

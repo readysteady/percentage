@@ -1,423 +1,474 @@
-require 'minitest/autorun'
-require 'minitest/global_expectations'
-
 require_relative '../lib/percentage'
 require_relative '../lib/percentage/yaml'
 
-describe 'Percentage object' do
+RSpec.describe Percentage do
   it 'is comparable' do
     percentage = Percentage.new(Rational(1, 8))
 
-    (Comparable === percentage).must_equal(true)
+    expect(percentage).to be_kind_of(Comparable)
   end
 
-  it 'is comparable to other objects of the same class' do
-    (Percentage.new(Rational(1, 8)) > Percentage.new(Rational(1, 10))).must_equal(true)
-  end
+  describe '#<=>' do
+    it 'supports comparison with other objects of the same class' do
+      expect(Percentage.new(Rational(1, 8)) > Percentage.new(Rational(1, 10))).to eq(true)
+    end
 
-  it 'is comparable to other numeric objects' do
-    (Percentage.new(Rational(1, 8)) > Rational(1, 10)).must_equal(true)
-  end
-
-  it 'can be used as a hash key' do
-    hash = Hash.new(0)
-
-    3.times { hash[Percentage.new(Rational(1, 10))] += 1 }
-
-    hash[Percentage.new(Rational(1, 10))].must_equal(3)
-  end
-
-  it 'can be frozen' do
-    percentage = Percentage.new(10).freeze
-    percentage.frozen?.must_equal(true)
-    percentage.to_i.must_equal(10)
-  end
-end
-
-describe 'Percentage object initialized with an integer value' do
-  before do
-    @percentage = Percentage.new(10)
-  end
-
-  describe 'value method' do
-    it 'returns the value passed to the constructor' do
-      @percentage.value.must_equal(10)
+    it 'supports comparison with other numeric objects' do
+      expect(Percentage.new(Rational(1, 8)) > Rational(1, 10)).to eq(true)
     end
   end
 
-  describe 'to_i method' do
-    it 'returns the integer value of the percentage' do
-      @percentage.to_i.must_equal(10)
+  describe '#hash and #eql?' do
+    it 'supports being used as a hash key' do
+      hash = Hash.new(0)
+
+      3.times { hash[Percentage.new(Rational(1, 10))] += 1 }
+
+      expect(hash[Percentage.new(Rational(1, 10))]).to eq(3)
     end
   end
 
-  describe 'to_f method' do
-    it 'returns the float value of the percentage' do
-      @percentage.to_f.must_be_close_to(10.0)
-    end
-  end
-
-  describe 'to_s method' do
-    it 'returns the integer value of the percentage suffixed with the percent symbol' do
-      @percentage.to_s.must_equal('10%')
-    end
-  end
-
-  describe 'to_r method' do
-    it 'returns the rational value of the percentage' do
-      @percentage.to_r.must_equal(Rational(1, 10))
-    end
-  end
-
-  describe 'zero query method' do
-    it 'returns true if the percentage has a zero value' do
-      Percentage.new(0).zero?.must_equal(true)
-    end
-
-    it 'returns false otherwise' do
-      @percentage.zero?.must_equal(false)
-    end
-  end
-
-  describe 'truncate method with zero arguments' do
-    it 'returns self' do
-      percentage = @percentage.truncate
-      percentage.object_id.must_equal(@percentage.object_id)
-    end
-  end
-
-  describe 'truncate method with an integer argument' do
-    it 'returns self' do
-      percentage = @percentage.truncate
-      percentage.object_id.must_equal(@percentage.object_id)
-    end
-  end
-
-  describe 'scale method' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
-      percentage = @percentage.scale(2)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(20)
-    end
-  end
-end
-
-describe 'Percentage object initialized with a rational value' do
-  before do
-    @percentage = Percentage.new(Rational(1, 8))
-  end
-
-  describe 'value method' do
-    it 'returns the value passed to the constructor' do
-      @percentage.value.must_equal(Rational(1, 8))
-    end
-  end
-
-  describe 'to_i method' do
-    it 'returns the integer value of the percentage' do
-      @percentage.to_i.must_equal(12)
-    end
-  end
-
-  describe 'to_f method' do
-    it 'returns the float value of the percentage' do
-      @percentage.to_f.must_be_close_to(12.5)
-    end
-  end
-
-  describe 'to_s method' do
-    it 'returns the decimal value of the percentage suffixed with the percent symbol' do
-      @percentage.to_s.must_equal('12.5%')
-    end
-  end
-
-  describe 'to_r method' do
-    it 'returns the rational value of the percentage' do
-      @percentage.to_r.must_equal(Rational(1, 8))
-    end
-  end
-
-  describe 'zero query method' do
-    it 'returns true if the percentage has a zero value' do
-      Percentage.new(Rational(0)).zero?.must_equal(true)
-    end
-
-    it 'returns false otherwise' do
-      @percentage.zero?.must_equal(false)
-    end
-  end
-
-  describe 'truncate method with zero arguments' do
-    it 'returns a percentage object with an integer value' do
-      percentage = @percentage.truncate
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(12)
-    end
-  end
-
-  describe 'truncate method with an integer argument' do
-    it 'returns a percentage object with a truncated rational value' do
-      percentage = Percentage.new(Rational(3141592, 100000000)).truncate(2)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(314, 10000))
-    end
-  end
-
-  describe 'scale method' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
-      percentage = @percentage.scale(2)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 4))
-    end
-  end
-end
-
-describe 'Percentage object initialized with a decimal value' do
-  before do
-    @percentage = Percentage.new(BigDecimal('0.175'))
-  end
-
-  describe 'value method' do
-    it 'returns the value passed to the constructor' do
-      @percentage.value.must_equal(BigDecimal('0.175'))
-    end
-  end
-
-  describe 'to_i method' do
-    it 'returns the integer value of the percentage' do
-      @percentage.to_i.must_equal(17)
-    end
-  end
-
-  describe 'to_f method' do
-    it 'returns the float value of the percentage' do
-      @percentage.to_f.must_be_close_to(17.5)
-    end
-  end
-
-  describe 'to_s method' do
-    it 'returns the decimal value of the percentage suffixed with the percent symbol' do
-      @percentage.to_s.must_equal('17.5%')
-    end
-  end
-
-  describe 'to_r method' do
-    it 'returns the rational value of the percentage' do
-      @percentage.to_r.must_equal(Rational(175, 1000))
-    end
-  end
-
-  describe 'zero query method' do
-    it 'returns true if the percentage has a zero value' do
-      Percentage.new(BigDecimal('0')).zero?.must_equal(true)
-    end
-
-    it 'returns false otherwise' do
-      @percentage.zero?.must_equal(false)
-    end
-  end
-
-  describe 'truncate method with zero arguments' do
-    it 'returns a percentage object with an integer value' do
-      percentage = @percentage.truncate
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(17)
-    end
-  end
-
-  describe 'truncate method with an integer argument' do
-    it 'returns a percentage object with a truncated decimal value' do
-      percentage = Percentage.new(BigDecimal('0.03141592')).truncate(2)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.0314'))
-    end
-  end
-
-  describe 'scale method' do
-    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
-      percentage = @percentage.scale(2)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.35'))
-    end
-  end
-end
-
-describe 'Addition of percentage objects' do
-  it 'returns a percentage object with the value of the two percentages added together' do
-    percentage = Percentage.new(10) + Percentage.new(10)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(20)
-
-    percentage = Percentage.new(Rational(1, 8)) + Percentage.new(10)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(Rational(9, 40))
-
-    percentage = Percentage.new(BigDecimal('0.175')) + Percentage.new(BigDecimal('0.025'))
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(BigDecimal('0.2'))
-  end
-end
-
-describe 'Addition of percentage object with another type of object' do
-  it 'raises an exception' do
-    proc { Percentage.new(10) + 5 }.must_raise(TypeError)
-  end
-end
-
-describe 'Multiplication of percentage objects' do
-  it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
-    percentage = Percentage.new(10) * Percentage.new(10)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(Rational(1, 100))
-
-    percentage = Percentage.new(Rational(1, 8)) * Percentage.new(10)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(Rational(1, 80))
-
-    percentage = Percentage.new(BigDecimal('0.175')) * Percentage.new(10)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(Rational(7, 400))
-  end
-end
-
-describe 'Multiplication of a decimal object with a percentage object' do
-  it 'returns a decimal object with the value of the decimal multiplied by the fractional value of the percentage' do
-    percentage, decimal = Percentage.new(BigDecimal('0.175')), BigDecimal('99.00')
-
-    (decimal * percentage).must_equal(BigDecimal('17.325'))
-    (percentage * decimal).must_equal(BigDecimal('17.325'))
-  end
-end
-
-describe 'Percentage object equality' do
-  describe 'double equals method' do
+  describe '#==' do
     it 'returns true for percentage objects with the same fractional value' do
-      (Percentage.new(50) == Percentage.new(50)).must_equal(true)
-      (Percentage.new(50) == Percentage.new(Rational(1, 2))).must_equal(true)
-      (Percentage.new(50) == Percentage.new(BigDecimal('0.5'))).must_equal(true)
+      expect(Percentage.new(50) == Percentage.new(50)).to eq(true)
+      expect(Percentage.new(50) == Percentage.new(Rational(1, 2))).to eq(true)
+      expect(Percentage.new(50) == Percentage.new(BigDecimal('0.5'))).to eq(true)
     end
 
     it 'returns false otherwise' do
-      (Percentage.new(50) == Percentage.new(100)).must_equal(false)
+      expect(Percentage.new(50) == Percentage.new(100)).to eq(false)
     end
   end
 
-  describe 'eql query method' do
+  describe '#eql?' do
     it 'returns true for percentage objects with exactly the same fractional value' do
-      (Percentage.new(50).eql? Percentage.new(50)).must_equal(true)
+      expect(Percentage.new(50).eql? Percentage.new(50)).to eq(true)
     end
 
     it 'returns false otherwise' do
-      (Percentage.new(50).eql? Percentage.new(Rational(1, 2))).must_equal(false)
-      (Percentage.new(50).eql? Percentage.new(BigDecimal('0.5'))).must_equal(false)
-      (Percentage.new(50).eql? Percentage.new(100)).must_equal(false)
+      expect(Percentage.new(50).eql? Percentage.new(Rational(1, 2))).to eq(false)
+      expect(Percentage.new(50).eql? Percentage.new(BigDecimal('0.5'))).to eq(false)
+      expect(Percentage.new(50).eql? Percentage.new(100)).to eq(false)
+    end
+  end
+
+  describe '#+' do
+    context 'with other type of object' do
+      it 'raises an exception' do
+        expect { Percentage.new(10) + 5 }.to raise_error(TypeError)
+      end
+    end
+  end
+
+  describe '#freeze' do
+    it 'returns a frozen instance' do
+      percentage = Percentage.new(10).freeze
+
+      expect(percentage.frozen?).to eq(true)
     end
   end
 end
 
-describe 'Percentage method' do
-  describe 'when called with an integer argument' do
+RSpec.describe 'Percentage object initialized with an integer value' do
+  let(:percentage) { Percentage.new(10) }
+
+  describe '#value' do
+    it 'returns the value passed to the constructor' do
+      expect(percentage.value).to eq(10)
+    end
+  end
+
+  describe '#to_i' do
+    it 'returns the integer value of the percentage' do
+      expect(percentage.to_i).to eq(10)
+    end
+  end
+
+  describe '#to_f' do
+    it 'returns the float value of the percentage' do
+      expect(percentage.to_f).to be_within(0.001).of(10.0)
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns the integer value of the percentage suffixed with the percent symbol' do
+      expect(percentage.to_s).to eq('10%')
+    end
+  end
+
+  describe '#to_r' do
+    it 'returns the rational value of the percentage' do
+      expect(percentage.to_r).to eq(Rational(1, 10))
+    end
+  end
+
+  describe '#zero?' do
+    it 'returns true if the percentage has a zero value' do
+      expect(Percentage.new(0).zero?).to eq(true)
+    end
+
+    it 'returns false otherwise' do
+      expect(percentage.zero?).to eq(false)
+    end
+  end
+
+  describe '#+' do
+    it 'returns a percentage object with the value of the two percentages added together' do
+      percentage = Percentage.new(10) + Percentage.new(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(20)
+    end
+  end
+
+  describe '#*' do
+    it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
+      percentage = Percentage.new(10) * Percentage.new(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 100))
+    end
+  end
+
+  describe '#truncate' do
+    context 'with zero arguments' do
+      it 'returns itself' do
+        object = percentage.truncate
+
+        expect(object.object_id).to eq(percentage.object_id)
+      end
+    end
+
+    context 'with an integer argument' do
+      it 'returns itself' do
+        object = percentage.truncate
+
+        expect(object.object_id).to eq(percentage.object_id)
+      end
+    end
+  end
+
+  describe '#scale' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      object = percentage.scale(2)
+
+      expect(object).to be_a(Percentage)
+      expect(object.value).to eq(20)
+    end
+  end
+end
+
+RSpec.describe 'Percentage object initialized with a rational value' do
+  let(:percentage) { Percentage.new(Rational(1, 8)) }
+
+  describe '#value' do
+    it 'returns the value passed to the constructor' do
+      expect(percentage.value).to eq(Rational(1, 8))
+    end
+  end
+
+  describe '#to_i' do
+    it 'returns the integer value of the percentage' do
+      expect(percentage.to_i).to eq(12)
+    end
+  end
+
+  describe '#to_f' do
+    it 'returns the float value of the percentage' do
+      expect(percentage.to_f).to be_within(0.001).of(12.5)
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns the decimal value of the percentage suffixed with the percent symbol' do
+      expect(percentage.to_s).to eq('12.5%')
+    end
+  end
+
+  describe '#to_r' do
+    it 'returns the rational value of the percentage' do
+      expect(percentage.to_r).to eq(Rational(1, 8))
+    end
+  end
+
+  describe '#zero?' do
+    it 'returns true if the percentage has a zero value' do
+      expect(Percentage.new(Rational(0)).zero?).to eq(true)
+    end
+
+    it 'returns false otherwise' do
+      expect(percentage.zero?).to eq(false)
+    end
+  end
+
+  describe '#+' do
+    it 'returns a percentage object with the value of the two percentages added together' do
+      percentage = Percentage.new(Rational(1, 8)) + Percentage.new(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(9, 40))
+    end
+  end
+
+  describe '#*' do
+    it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
+      percentage = Percentage.new(Rational(1, 8)) * Percentage.new(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 80))
+    end
+  end
+
+  describe '#truncate' do
+    context 'with zero arguments' do
+      it 'returns a percentage object with an integer value' do
+        object = percentage.truncate
+
+        expect(object).to be_a(Percentage)
+        expect(object.value).to eq(12)
+      end
+    end
+
+    context 'with an integer argument' do
+      it 'returns a percentage object with a truncated rational value' do
+        object = Percentage.new(Rational(3141592, 100000000)).truncate(2)
+
+        expect(object).to be_a(Percentage)
+        expect(object.value).to eq(Rational(314, 10000))
+      end
+    end
+  end
+
+  describe '#scale' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      object = percentage.scale(2)
+
+      expect(object).to be_a(Percentage)
+      expect(object.value).to eq(Rational(1, 4))
+    end
+  end
+end
+
+RSpec.describe 'Percentage object initialized with a decimal value' do
+  let(:percentage) { Percentage.new(BigDecimal('0.175')) }
+
+  describe '#value' do
+    it 'returns the value passed to the constructor' do
+      expect(percentage.value).to eq(BigDecimal('0.175'))
+    end
+  end
+
+  describe '#to_i' do
+    it 'returns the integer value of the percentage' do
+      expect(percentage.to_i).to eq(17)
+    end
+  end
+
+  describe '#to_f' do
+    it 'returns the float value of the percentage' do
+      expect(percentage.to_f).to be_within(0.001).of(17.5)
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns the decimal value of the percentage suffixed with the percent symbol' do
+      expect(percentage.to_s).to eq('17.5%')
+    end
+  end
+
+  describe '#to_r' do
+    it 'returns the rational value of the percentage' do
+      expect(percentage.to_r).to eq(Rational(175, 1000))
+    end
+  end
+
+  describe '#zero?' do
+    it 'returns true if the percentage has a zero value' do
+      expect(Percentage.new(BigDecimal('0')).zero?).to eq(true)
+    end
+
+    it 'returns false otherwise' do
+      expect(percentage.zero?).to eq(false)
+    end
+  end
+
+  describe '#+' do
+    it 'returns a percentage object with the value of the two percentages added together' do
+      percentage = Percentage.new(BigDecimal('0.175')) + Percentage.new(BigDecimal('0.025'))
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(BigDecimal('0.2'))
+    end
+  end
+
+  describe '#*' do
+    it 'returns a percentage object with the fractional value of the two percentages multiplied together' do
+      percentage = Percentage.new(BigDecimal('0.175')) * Percentage.new(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(7, 400))
+    end
+
+    context 'with a decimal object' do
+      it 'returns a decimal object with the value of the decimal multiplied by the fractional value of the percentage' do
+        percentage, decimal = Percentage.new(BigDecimal('0.175')), BigDecimal('99.00')
+
+        expect(decimal * percentage).to eq(BigDecimal('17.325'))
+        expect(percentage * decimal).to eq(BigDecimal('17.325'))
+      end
+    end
+  end
+
+  describe '#truncate' do
+    context 'with zero arguments' do
+      it 'returns a percentage object with an integer value' do
+        object = percentage.truncate
+
+        expect(object).to be_a(Percentage)
+        expect(object.value).to eq(17)
+      end
+    end
+
+    context 'with an integer argument' do
+      it 'returns a percentage object with a truncated decimal value' do
+        object = Percentage.new(BigDecimal('0.03141592')).truncate(2)
+
+        expect(object).to be_a(Percentage)
+        expect(object.value).to eq(BigDecimal('0.0314'))
+      end
+    end
+  end
+
+  describe '#scale' do
+    it 'returns a percentage object with the value of the percentage multiplied by the integer argument' do
+      object = percentage.scale(2)
+
+      expect(object).to be_a(Percentage)
+      expect(object.value).to eq(BigDecimal('0.35'))
+    end
+  end
+end
+
+RSpec.describe 'Percentage(object)' do
+  describe 'with an integer argument' do
     it 'returns a percentage object with the integer value' do
       percentage = Percentage(10)
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(10)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(10)
     end
   end
 
-  describe 'when called with a decimal argument' do
+  describe 'with a decimal argument' do
     it 'returns a percentage object with the value of the argument divided by 100' do
       percentage = Percentage(BigDecimal('17.5'))
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(BigDecimal('0.175'))
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(BigDecimal('0.175'))
     end
   end
 
-  describe 'when called with a rational argument' do
+  describe 'with a rational argument' do
     it 'returns a percentage object with the value of the argument divided by 100' do
       percentage = Percentage(Rational(100, 3))
-      percentage.must_be_instance_of(Percentage)
-      percentage.value.must_equal(Rational(1, 3))
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 3))
     end
   end
 end
 
-describe 'Percentage change method' do
+RSpec.describe 'Percentage.change' do
   it 'returns the difference between the arguments as a percentage of the first argument' do
     percentage = Percentage.change(2, 3)
-    percentage.must_be_instance_of(Percentage)
-    percentage.must_equal(Percentage.new(50))
+
+    expect(percentage).to be_a(Percentage)
+    expect(percentage).to eq(Percentage.new(50))
   end
 end
 
-describe 'BigDecimal to_percentage method' do
-  it 'returns a percentage object with the value of the decimal as a percentage' do
-    percentage = BigDecimal(90).to_percentage
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(BigDecimal('0.9'))
+RSpec.describe BigDecimal do
+  describe '#to_percentage' do
+    it 'returns a percentage object with the value of the decimal as a percentage' do
+      percentage = BigDecimal(90).to_percentage
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(BigDecimal('0.9'))
+    end
+  end
+
+  describe '#percent_of' do
+    it 'returns the value of the receiver as a percentage multiplied by the argument' do
+      expect(BigDecimal(90).percent_of(100)).to eq(90)
+      expect(BigDecimal(90).percent_of(BigDecimal('15'))).to eq(BigDecimal('13.5'))
+      expect(BigDecimal(90).percent_of(Rational(150, 2))).to eq(Rational(135, 2))
+    end
+  end
+
+  describe '#as_percentage_of' do
+    it 'returns a percentage object with the value of the decimal divided by the argument' do
+      percentage = BigDecimal('50.00').as_percentage_of(BigDecimal('100.00'))
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(BigDecimal('0.5'))
+    end
   end
 end
 
-describe 'BigDecimal percent_of method' do
-  it 'returns the value of the receiver as a percentage multiplied by the argument' do
-    BigDecimal(90).percent_of(100).must_equal(90)
-    BigDecimal(90).percent_of(BigDecimal('15')).must_equal(BigDecimal('13.5'))
-    BigDecimal(90).percent_of(Rational(150, 2)).must_equal(Rational(135, 2))
+RSpec.describe Integer do
+  describe '#to_percentage' do
+    it 'returns a percentage object with the value of the integer' do
+      percentage = 10.to_percentage
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(10)
+    end
+  end
+
+  describe '#percent' do
+    it 'returns a percentage object with the value of the integer' do
+      percentage = 10.percent
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(10)
+    end
+  end
+
+  describe '#percent_of' do
+    it 'returns the value of the receiver as a percentage multiplied by the argument' do
+      expect(10.percent_of(100)).to eq(10)
+      expect(10.percent_of(BigDecimal('15'))).to eq(BigDecimal('1.5'))
+      expect(10.percent_of(Rational(150, 2))).to eq(Rational(15, 2))
+    end
+  end
+
+  describe '#as_percentage_of' do
+    it 'returns a percentage object with the value of the integer divided by the argument' do
+      percentage = 10.as_percentage_of(20)
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 2))
+    end
   end
 end
 
-describe 'BigDecimal as_percentage_of method' do
-  it 'returns a percentage object with the value of the decimal divided by the argument' do
-    percentage = BigDecimal('50.00').as_percentage_of(BigDecimal('100.00'))
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(BigDecimal('0.5'))
-  end
-end
-
-describe 'Integer to_percentage method' do
-  it 'returns a percentage object with the value of the integer' do
-    percentage = 10.to_percentage
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(10)
-  end
-end
-
-describe 'Integer percent method' do
-  it 'returns a percentage object with the value of the integer' do
-    percentage = 10.percent
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(10)
-  end
-end
-
-describe 'Integer percent_of method' do
-  it 'returns the value of the receiver as a percentage multiplied by the argument' do
-    10.percent_of(100).must_equal(10)
-    10.percent_of(BigDecimal('15')).must_equal(BigDecimal('1.5'))
-    10.percent_of(Rational(150, 2)).must_equal(Rational(15, 2))
-  end
-end
-
-describe 'Integer as_percentage_of method' do
-  it 'returns a percentage object with the value of the integer divided by the argument' do
-    percentage = 10.as_percentage_of(20)
-    percentage.must_be_instance_of(Percentage)
-    percentage.value.must_equal(Rational(1, 2))
-  end
-end
-
-describe 'YAML' do
+RSpec.describe 'YAML' do
   let(:integer_percentage) { Percentage.new(10) }
   let(:decimal_percentage) { Percentage.new(BigDecimal('0.175')) }
   let(:rational_percentage) { Percentage.new(Rational(1, 8)) }
 
-  it 'dumps percentage objects' do
-    YAML.dump([integer_percentage]).must_equal("---\n- 10%\n")
-    YAML.dump([decimal_percentage]).must_equal("---\n- 17.5%\n")
-    YAML.dump([rational_percentage]).must_equal("---\n- 12.5%\n")
+  describe '.dump' do
+    it 'dumps percentage objects' do
+      expect(YAML.dump([integer_percentage])).to eq("---\n- 10%\n")
+      expect(YAML.dump([decimal_percentage])).to eq("---\n- 17.5%\n")
+      expect(YAML.dump([rational_percentage])).to eq("---\n- 12.5%\n")
+    end
   end
 
-  it 'loads percentage objects' do
-    YAML.load("---\n- 10%\n").must_equal([integer_percentage])
-    YAML.load("---\n- 17.5%\n").must_equal([decimal_percentage])
+  describe '.load' do
+    it 'loads percentage objects' do
+      expect(YAML.load("---\n- 10%\n")).to eq([integer_percentage])
+      expect(YAML.load("---\n- 17.5%\n")).to eq([decimal_percentage])
+    end
   end
 end

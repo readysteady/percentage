@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
     'homepage' => 'https://github.com/readysteady/percentage',
     'source_code_uri' => 'https://github.com/readysteady/percentage',
     'bug_tracker_uri' => 'https://github.com/readysteady/percentage/issues',
-    'changelog_uri' => 'https://github.com/readysteady/percentage/blob/master/CHANGES.md'
+    'changelog_uri' => 'https://github.com/readysteady/percentage/blob/main/CHANGES.md'
   }
 end

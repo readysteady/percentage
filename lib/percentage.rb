@@ -115,7 +115,7 @@ def Percentage(object)
 end
 
 def Percentage.change(a, b)
-  Percentage.new((b - a).to_r / a)
+  Percentage.new((b - a).to_r / a) unless a.zero?
 end
 
 class BigDecimal

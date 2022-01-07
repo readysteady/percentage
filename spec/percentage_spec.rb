@@ -385,6 +385,14 @@ RSpec.describe 'Percentage.change' do
     expect(percentage).to be_a(Percentage)
     expect(percentage).to eq(Percentage.new(50))
   end
+
+  context 'when the first argument is zero' do
+    it 'returns nil' do
+      percentage = Percentage.change(0, 1)
+
+      expect(percentage).to be_nil
+    end
+  end
 end
 
 RSpec.describe BigDecimal do

@@ -1,7 +1,7 @@
 # percentage
 
 ![Gem Version](https://badge.fury.io/rb/percentage.svg)
-![Build Status](https://github.com/readysteady/percentage/workflows/Test/badge.svg)
+![Test Status](https://github.com/readysteady/percentage/actions/workflows/test.yml/badge.svg)
 
 
 Ruby gem for working with percentages.

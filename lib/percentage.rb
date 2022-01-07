@@ -7,6 +7,8 @@ class Percentage
 
   def initialize(value)
     @value = value
+
+    freeze
   end
 
   def to_i

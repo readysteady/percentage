@@ -9,6 +9,12 @@ RSpec.describe Percentage do
     expect(percentage).to be_kind_of(Comparable)
   end
 
+  it 'returns frozen instances' do
+    percentage = Percentage.new(Rational(1, 8))
+
+    expect(percentage).to be_frozen
+  end
+
   describe '#<=>' do
     it 'supports comparison with other objects of the same class' do
       expect(Percentage.new(Rational(1, 8)) > Percentage.new(Rational(1, 10))).to eq(true)

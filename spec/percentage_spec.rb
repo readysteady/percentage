@@ -1,5 +1,6 @@
 require_relative '../lib/percentage'
 require_relative '../lib/percentage/yaml'
+require 'bigdecimal/util'
 
 RSpec.describe Percentage do
   it 'is comparable' do
@@ -102,6 +103,12 @@ RSpec.describe 'Percentage object initialized with an integer value' do
     end
   end
 
+  describe '#to_d' do
+    it 'returns the decimal value of the percentage' do
+      expect(percentage.to_d).to eq(BigDecimal('0.1'))
+    end
+  end
+
   describe '#zero?' do
     it 'returns true if the percentage has a zero value' do
       expect(Percentage.new(0).zero?).to eq(true)
@@ -188,6 +195,12 @@ RSpec.describe 'Percentage object initialized with a rational value' do
   describe '#to_r' do
     it 'returns the rational value of the percentage' do
       expect(percentage.to_r).to eq(Rational(1, 8))
+    end
+  end
+
+  describe '#to_d' do
+    it 'returns the decimal value of the percentage' do
+      expect(percentage.to_d).to eq(BigDecimal('0.125'))
     end
   end
 
@@ -279,6 +292,12 @@ RSpec.describe 'Percentage object initialized with a decimal value' do
   describe '#to_r' do
     it 'returns the rational value of the percentage' do
       expect(percentage.to_r).to eq(Rational(175, 1000))
+    end
+  end
+
+  describe '#to_d' do
+    it 'returns the decimal value of the percentage' do
+      expect(percentage.to_d).to eq(BigDecimal('0.175'))
     end
   end
 

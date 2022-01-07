@@ -25,6 +25,16 @@ class Percentage
     fractional_value.to_r
   end
 
+  def to_d
+    if @value.integer?
+      @value.to_d / 100
+    elsif BigDecimal === @value
+      @value
+    else
+      @value.to_d(0)
+    end
+  end
+
   def zero?
     @value.zero?
   end

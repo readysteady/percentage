@@ -1,3 +1,11 @@
+# 2.0.0
+
+* Added Percentage#to_d
+
+* Percentage instances are now frozen on initialization
+
+* Changed `Percentage.change` to return `nil` when first argument is zero
+
 # 1.4.1
 
 * Added CHANGES.md to gem files

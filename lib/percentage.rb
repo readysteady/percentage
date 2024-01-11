@@ -103,6 +103,10 @@ class Percentage
     self.class.new(@value * n)
   end
 
+  def positive?
+    @value.positive?
+  end
+
   protected
 
   def fractional_value

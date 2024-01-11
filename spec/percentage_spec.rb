@@ -74,6 +74,24 @@ RSpec.describe Percentage do
       expect(percentage.frozen?).to eq(true)
     end
   end
+
+  describe '#positive?' do
+    context 'with a positive value' do
+      let(:percentage) { Percentage.new(Rational(1, 2)) }
+
+      it 'returns true' do
+        expect(percentage.positive?).to eq(true)
+      end
+    end
+
+    context 'with a negative value' do
+      let(:percentage) { Percentage.new(-Rational(1, 2)) }
+
+      it 'returns false' do
+        expect(percentage.positive?).to eq(false)
+      end
+    end
+  end
 end
 
 RSpec.describe 'Percentage object initialized with an integer value' do

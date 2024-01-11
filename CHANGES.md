@@ -1,3 +1,11 @@
+# 2.1.0
+
+* Added Percentage#-@
+
+* Added Percentage#positive?
+
+* Added Percentage#negative?
+
 # 2.0.0
 
 * Added Percentage#to_d

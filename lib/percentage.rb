@@ -107,6 +107,10 @@ class Percentage
     @value.positive?
   end
 
+  def negative?
+    @value.negative?
+  end
+
   protected
 
   def fractional_value

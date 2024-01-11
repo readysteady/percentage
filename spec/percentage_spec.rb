@@ -75,6 +75,13 @@ RSpec.describe Percentage do
     end
   end
 
+  describe '#-@' do
+    it 'returns a percentage object with the negative value' do
+      expect(-Percentage.new(Rational(1, 2))).to eq(Percentage.new(-Rational(1, 2)))
+      expect(-Percentage.new(-Rational(1, 2))).to eq(Percentage.new(Rational(1, 2)))
+    end
+  end
+
   describe '#positive?' do
     context 'with a positive value' do
       let(:percentage) { Percentage.new(Rational(1, 2)) }

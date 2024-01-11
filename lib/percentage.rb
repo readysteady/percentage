@@ -103,6 +103,10 @@ class Percentage
     self.class.new(@value * n)
   end
 
+  def -@
+    self.class.new(-@value)
+  end
+
   def positive?
     @value.positive?
   end

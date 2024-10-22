@@ -480,6 +480,15 @@ RSpec.describe Rational do
       expect(Rational(90).percent_of(Rational(150, 2))).to eq(Rational(135, 2))
     end
   end
+
+  describe '#as_percentage_of' do
+    it 'returns a percentage object with the value of the decimal divided by the argument' do
+      percentage = Rational(50).as_percentage_of(Rational(100))
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 2))
+    end
+  end
 end
 
 RSpec.describe BigDecimal do

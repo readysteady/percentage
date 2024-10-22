@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'percentage'
-  s.version = '2.1.1'
+  s.version = '2.2.0'
   s.license = 'LGPL-3.0'
   s.platform = Gem::Platform::RUBY
   s.authors = ['Tim Craft']

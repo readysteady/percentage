@@ -1,3 +1,11 @@
+# 2.2.0
+
+* Added Rational#to_percentage
+
+* Added Rational#percent_of
+
+* Added Rational#as_percentage_of
+
 # 2.1.1
 
 * Added bigdecimal gem dependency (thanks @orien)

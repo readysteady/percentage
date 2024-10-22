@@ -146,6 +146,10 @@ class Rational
   def to_percentage
     Percentage(self)
   end
+
+  def percent_of(n)
+    n * Percentage(self)
+  end
 end
 
 class BigDecimal

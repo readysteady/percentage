@@ -472,6 +472,14 @@ RSpec.describe Rational do
       expect(percentage.value).to eq(Rational(1, 3))
     end
   end
+
+  describe '#percent_of' do
+    it 'returns the value of the receiver as a percentage multiplied by the argument' do
+      expect(Rational(90).percent_of(100)).to eq(90)
+      expect(Rational(90).percent_of(BigDecimal('15'))).to eq(BigDecimal('13.5'))
+      expect(Rational(90).percent_of(Rational(150, 2))).to eq(Rational(135, 2))
+    end
+  end
 end
 
 RSpec.describe BigDecimal do

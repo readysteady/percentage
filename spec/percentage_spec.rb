@@ -463,6 +463,17 @@ RSpec.describe 'Percentage.change' do
   end
 end
 
+RSpec.describe Rational do
+  describe '#to_percentage' do
+    it 'returns a percentage object with the value of the rational as a percentage' do
+      percentage = Rational(100, 3).to_percentage
+
+      expect(percentage).to be_a(Percentage)
+      expect(percentage.value).to eq(Rational(1, 3))
+    end
+  end
+end
+
 RSpec.describe BigDecimal do
   describe '#to_percentage' do
     it 'returns a percentage object with the value of the decimal as a percentage' do

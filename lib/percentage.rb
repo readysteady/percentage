@@ -142,6 +142,12 @@ def Percentage.change(a, b)
   Percentage.new((b - a).to_r / a) unless a.zero?
 end
 
+class Rational
+  def to_percentage
+    Percentage(self)
+  end
+end
+
 class BigDecimal
   def to_percentage
     Percentage(self)

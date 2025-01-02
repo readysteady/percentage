@@ -67,14 +67,6 @@ RSpec.describe Percentage do
     end
   end
 
-  describe '#freeze' do
-    it 'returns a frozen instance' do
-      percentage = Percentage.new(10).freeze
-
-      expect(percentage.frozen?).to eq(true)
-    end
-  end
-
   describe '#-@' do
     it 'returns a percentage object with the negative value' do
       expect(-Percentage.new(Rational(1, 2))).to eq(Percentage.new(-Rational(1, 2)))

@@ -160,6 +160,16 @@ RSpec.describe 'Percentage object initialized with an integer value' do
     end
   end
 
+  describe '#nonzero?' do
+    it 'returns nil if the percentage has a zero value' do
+      expect(Percentage.new(0).nonzero?).to be_nil
+    end
+
+    it 'returns itself otherwise' do
+      expect(percentage.nonzero?).to eq(percentage)
+    end
+  end
+
   describe '#+' do
     it 'returns a percentage object with the value of the two percentages added together' do
       percentage = Percentage.new(10) + Percentage.new(10)
@@ -252,6 +262,16 @@ RSpec.describe 'Percentage object initialized with a rational value' do
 
     it 'returns false otherwise' do
       expect(percentage.zero?).to eq(false)
+    end
+  end
+
+  describe '#nonzero?' do
+    it 'returns nil if the percentage has a zero value' do
+      expect(Percentage.new(Rational(0)).nonzero?).to be_nil
+    end
+
+    it 'returns itself otherwise' do
+      expect(percentage.nonzero?).to eq(percentage)
     end
   end
 
@@ -349,6 +369,16 @@ RSpec.describe 'Percentage object initialized with a decimal value' do
 
     it 'returns false otherwise' do
       expect(percentage.zero?).to eq(false)
+    end
+  end
+
+  describe '#nonzero?' do
+    it 'returns nil if the percentage has a zero value' do
+      expect(Percentage.new(BigDecimal('0')).nonzero?).to be_nil
+    end
+
+    it 'returns itself otherwise' do
+      expect(percentage.nonzero?).to eq(percentage)
     end
   end
 

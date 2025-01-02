@@ -41,6 +41,11 @@ class Percentage
     @value.zero?
   end
 
+  def nonzero?
+    return if @value.zero?
+    self
+  end
+
   def <=>(object)
     if self.class === object
       fractional_value <=> object.fractional_value

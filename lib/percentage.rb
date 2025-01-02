@@ -120,6 +120,10 @@ class Percentage
     @value.negative?
   end
 
+  def inspect
+    "<Percentage: value=#{value.inspect}>"
+  end
+
   protected
 
   def fractional_value

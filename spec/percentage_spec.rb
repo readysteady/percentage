@@ -109,6 +109,14 @@ RSpec.describe Percentage do
       end
     end
   end
+
+  describe '#inspect' do
+    it 'returns a string' do
+      percentage = Percentage.new(Rational(1, 2))
+
+      expect(percentage.inspect).to eq('<Percentage: value=(1/2)>')
+    end
+  end
 end
 
 RSpec.describe 'Percentage object initialized with an integer value' do

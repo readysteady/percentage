@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
     'bug_tracker_uri' => 'https://github.com/readysteady/percentage/issues',
     'changelog_uri' => 'https://github.com/readysteady/percentage/blob/main/CHANGES.md'
   }
-  s.add_runtime_dependency 'bigdecimal'
+  s.add_dependency 'bigdecimal', '~> 3'
 end

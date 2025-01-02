@@ -1,3 +1,11 @@
+# 2.3.0
+
+* **Required ruby version is now 2.5.0**
+
+* Added Percentage#nonzero?
+
+* Added Percentage#inspect
+
 # 2.2.0
 
 * Added Rational#to_percentage

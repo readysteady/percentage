@@ -1,3 +1,7 @@
+# 2.3.1
+
+* Removed version restriction on bigdecimal dependency
+
 # 2.3.0
 
 * **Required ruby version is now 2.5.0**
